@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cfv -C -rr -fchecksum.csv .
