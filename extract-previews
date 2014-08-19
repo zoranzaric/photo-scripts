@@ -1,0 +1,17 @@
+#!/bin/bash
+
+command -v exiftool >/dev/null 2>&1 || { echo >&2 "exiftool has to be installed"; exit 1; }
+
+find . -iname "*.cr2" -or -iname "*.dng" | while read path; do \
+    previewdir=$(dirname "$path")/_PREVIEWS || continue
+    filename=$(basename "$path")
+    previewpath=$previewdir/${filename}.jpg
+
+    if [ ! -d "$previewdir" ]; then
+        mkdir -p "$previewdir"
+    fi
+
+    if [ ! -f "$previewpath" ]; then
+        exiftool -PreviewImage -b "$path" > "$previewpath"
+    fi
+done
